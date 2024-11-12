@@ -1,8 +1,8 @@
-const Post = ({ id, title, author, onClick }) => {
+const Post = ({ id, title, author, onHandleClick }) => {
   return (
     <div
       className="border p3 m1 bg-blue text-white"
-      onClick={onClick}
+      onClick={() => onHandleClick(id)}
       role="button"
     >
       <div>ID: {id}</div>
