@@ -26,4 +26,9 @@ export const updatePost = async (id, data) => {
   return response.data;
 };
 
+export const getAllCommentsOfPost = async (postId) => {
+  const response = await api.get(`posts/${postId}/comments`);
+  return response.data;
+};
+
 export default api;
