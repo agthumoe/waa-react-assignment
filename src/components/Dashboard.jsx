@@ -3,7 +3,7 @@ import PostDetails from "./PostDetails";
 import Posts from "./Posts";
 
 const Dashboard = () => {
-  const posts = [
+  const [posts, setPosts] = useState([
     {
       id: 111,
       title: "Hapiness",
@@ -25,20 +25,23 @@ const Dashboard = () => {
       content:
         "Dolore duis dolor esse consectetur in non commodo et cupidatat. Et pariatur reprehenderit eu laborum eiusmod officia sit adipisicing Lorem officia. Ut minim culpa ea sint dolor cupidatat dolor officia eiusmod enim deserunt. Voluptate quis irure quis dolor.",
     },
-  ];
+  ]);
+
   const [post, setPost] = useState(null);
 
   const [text, setText] = useState("");
 
-  const [title, setTitle] = useState("");
-
   const changeName = () => {
-    setTitle(text);
+    setPosts((prevState) => {
+      const newState = [...prevState];
+      newState[0].title = text;
+      return newState;
+    });
   };
 
   return (
     <div className="flex align-center column">
-      <Posts setPost={setPost} posts={posts} title={title} />
+      <Posts setPost={setPost} posts={posts} />
       <div className="flex justify-center">
         <div className="flex column">
           <input
@@ -53,7 +56,7 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
-      <PostDetails post={post} title={title} />
+      <PostDetails post={post} />
     </div>
   );
 };
