@@ -1,9 +1,11 @@
 import { deleteOnePost } from "../api/api";
 import useGetAllCommentsOfPost from "../hooks/useGetallCommentsOfPost";
 import useGetOnePost from "../hooks/useGetOnePost";
-import Comment from "./Comment";
+import Badge from "./Badge";
+import Button from "./Button";
+import Comments from "./Comments";
 
-const PostDetails = ({ id, invalidate }) => {
+const PostDetails = ({ id, onDeleteSuccess }) => {
   const post = useGetOnePost(id);
   const { comments, invalidate: invalidateComments } =
     useGetAllCommentsOfPost(id);
@@ -11,7 +13,7 @@ const PostDetails = ({ id, invalidate }) => {
   const handleDelete = async (id) => {
     await deleteOnePost(id);
     alert(`Deleted: ${id}`);
-    invalidate();
+    onDeleteSuccess();
     invalidateComments();
   };
 
@@ -20,30 +22,20 @@ const PostDetails = ({ id, invalidate }) => {
   }
 
   return (
-    <div className="flex column w-half p3 border mt3 align-center">
-      <h2>{post.title}</h2>
-      <div>{post.author}</div>
-      <div className="mt1">{post.content}</div>
-      {comments?.length > 0 && (
-        <div>
-          <h3>Comments</h3>
-          {comments?.map((comment) => (
-            <Comment comment={comment} key={comment.id} />
-          ))}
-        </div>
-      )}
-      <div>
-        <button type="button" className="btn-link text-red">
-          edit
-        </button>
-        <button
-          type="button"
-          className="btn-link text-red"
-          onClick={() => handleDelete(id)}
-        >
-          delete
-        </button>
+    <div className="border rounded-lg mt-5 p-5">
+      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-1">
+        {post.title}
+      </h2>
+      <p className="my-4 text-gray-500">{post.content}</p>
+      <Badge>{post.author}</Badge>
+      <div className="flex space-x-2 mt-8">
+        <Button>Edit</Button>
+        <Button color="danger" onClick={() => handleDelete(id)}>
+          Delete
+        </Button>
       </div>
+      <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-200" />
+      <Comments comments={comments} />
     </div>
   );
 };

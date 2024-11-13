@@ -1,13 +1,17 @@
+import Badge from "./Badge";
+
 const Post = ({ id, title, author, onHandleClick }) => {
   return (
     <div
-      className="border p3 m1 bg-blue text-white"
+      className="border shadow-md rounded-lg p-6 w-full hover:shadow-lg cursor-pointer transition duration-300 bg-white"
       onClick={() => onHandleClick(id)}
       role="button"
     >
-      <div>ID: {id}</div>
-      <div>Title: {title}</div>
-      <div>Author: {author}</div>
+      <div className="flex items-center space-x-4">
+        <h3 className="font-medium text-md">{author}</h3>
+        <Badge>ID: {id}</Badge>
+      </div>
+      <div className="text-gray-600 text-md mt-1">{title}</div>
     </div>
   );
 };

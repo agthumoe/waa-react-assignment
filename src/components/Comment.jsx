@@ -1,5 +1,5 @@
 const Comment = ({ comment }) => {
-  return <div>{comment.name}</div>;
+  return <li className="py-3">{comment.name}</li>;
 };
 
 export default Comment;

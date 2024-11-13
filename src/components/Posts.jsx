@@ -2,7 +2,7 @@ import Post from "./Post";
 
 const Posts = ({ onHandleClick, posts }) => {
   return (
-    <div className="flex justify-center p3 w-half">
+    <div className="grid grid-cols-4 gap-4">
       {posts.map((post, index) => (
         <Post {...post} key={index} onHandleClick={onHandleClick} />
       ))}

@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { createPost } from "../api/api";
+import Button from "./Button";
+import Field from "./Field";
+import Form from "./Form";
+import TextAreaField from "./TextAreaField";
 
 const AddPost = ({ invalidate }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
+  const titleRef = useRef();
+  const contentRef = useRef();
+  const authorRef = useRef();
 
   const handleSubmit = () => {
+    const title = titleRef.current.value;
+    const content = contentRef.current.value;
+    const author = authorRef.current.value;
     createPost({ title, content, author }).then(() => {
       invalidate();
       reset();
@@ -14,49 +21,41 @@ const AddPost = ({ invalidate }) => {
   };
 
   const reset = () => {
-    setTitle("");
-    setContent("");
-    setAuthor("");
+    titleRef.current.value = "";
+    contentRef.current.value = "";
+    authorRef.current.value = "";
   };
 
   return (
-    <form noValidate className="flex column w-quarter p3 border m3">
-      <div className="flex column mt1">
-        <label htmlFor="title">Title</label>
-        <input
-          name="title"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="flex column mt1">
-        <label htmlFor="content">Content</label>
-        <textarea
-          name="content"
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </div>
-      <div className="flex column mt1">
-        <label htmlFor="author">Author</label>
-        <input
-          name="author"
-          id="author"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        />
-      </div>
-      <div className="mt1">
-        <button type="button" onClick={handleSubmit}>
+    <Form className="max-w-lg mx-auto my-5 border p-10 rounded-lg">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-5">Add Post</h2>
+      <Field
+        name="title"
+        label="Title"
+        placeholder="Awesome title"
+        ref={titleRef}
+      />
+      <TextAreaField
+        name="content"
+        label="Content"
+        placeholder="Write here"
+        ref={contentRef}
+      />
+      <Field
+        name="author"
+        label="Author"
+        placeholder="Who's writing"
+        ref={authorRef}
+      />
+      <div className="mt1 flex space-x-2 justify-end">
+        <Button type="button" onClick={handleSubmit}>
           Submit
-        </button>
-        <button type="reset" onClick={reset}>
+        </Button>
+        <Button color="danger" type="reset" onClick={reset}>
           Reset
-        </button>
+        </Button>
       </div>
-    </form>
+    </Form>
   );
 };
 
