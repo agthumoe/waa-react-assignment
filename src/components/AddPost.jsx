@@ -1,15 +1,15 @@
 import { useContext, useRef } from "react";
 import { createPost } from "../api/api";
+import StatefulContext from "../contexts/StatefulContext";
 import Button from "./Button";
 import Field from "./Field";
 import Form from "./Form";
-import StatefulContext from "./StatefulContext";
 import TextAreaField from "./TextAreaField";
 
 const AddPost = () => {
   const formRef = useRef();
 
-  const { invalidate } = useContext(StatefulContext);
+  const { invalidate, isAddPost } = useContext(StatefulContext);
 
   const handleSubmit = () => {
     const data = {
@@ -28,6 +28,10 @@ const AddPost = () => {
   const reset = () => {
     formRef.current.reset();
   };
+
+  if (!isAddPost) {
+    return null;
+  }
 
   return (
     <Form

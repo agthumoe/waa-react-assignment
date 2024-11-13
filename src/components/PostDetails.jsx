@@ -1,31 +1,23 @@
 import { useContext } from "react";
 import { deleteOnePost } from "../api/api";
-import useGetAllCommentsOfPost from "../hooks/useGetallCommentsOfPost";
-import useGetOnePost from "../hooks/useGetOnePost";
+import StatefulContext from "../contexts/StatefulContext";
+import useGetPostDetailsWithComments from "../hooks/useGetPostDetailsWithCommments";
 import Badge from "./Badge";
 import Button from "./Button";
 import Comments from "./Comments";
-import StatefulContext from "./StatefulContext";
 
 const PostDetails = () => {
   const { selectedPostId, setIsAddPost, setSelectedPostId, invalidate } =
     useContext(StatefulContext);
 
-  const post = useGetOnePost(selectedPostId);
-  const { comments, invalidate: invalidateComments } =
-    useGetAllCommentsOfPost(selectedPostId);
-
-  const onDeleteSuccess = () => {
-    setIsAddPost(false);
-    setSelectedPostId(null);
-    invalidate();
-  };
+  const { post, comments } = useGetPostDetailsWithComments(selectedPostId);
 
   const handleDelete = async (id) => {
     await deleteOnePost(id);
     alert(`Deleted: ${id}`);
-    onDeleteSuccess();
-    invalidateComments();
+    setIsAddPost(false);
+    setSelectedPostId(null);
+    invalidate();
   };
 
   if (!post || !selectedPostId) {

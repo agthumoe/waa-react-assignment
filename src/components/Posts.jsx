@@ -1,14 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { getAllPosts } from "../api/api";
+import useGetAllPosts from "../hooks/useGetAllPosts";
 import Post from "./Post";
-import StatefulContext from "./StatefulContext";
 
 const Posts = () => {
-  const { flag } = useContext(StatefulContext);
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    getAllPosts().then((data) => setPosts(data));
-  }, [flag]);
+  const posts = useGetAllPosts();
 
   return (
     <div className="grid grid-cols-4 gap-4">

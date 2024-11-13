@@ -12,6 +12,12 @@ export const getOnePost = async (id) => {
   return response.data;
 };
 
+export const getOnePostWithComments = async (id) => {
+  const response = await axios.all([getOnePost(id), getAllCommentsOfPost(id)]);
+  const [post, comments] = response;
+  return { post, comments };
+};
+
 export const deleteOnePost = async (id) => {
   await api.delete(`posts/${id}`);
 };

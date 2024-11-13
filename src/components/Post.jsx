@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import Badge from "./Badge";
-import StatefulContext from "./StatefulContext";
 import { useContext } from "react";
+import StatefulContext from "../contexts/StatefulContext";
+import Badge from "./Badge";
 
 const Post = ({ id, title, author }) => {
   const { setSelectedPostId, setIsAddPost } = useContext(StatefulContext);
