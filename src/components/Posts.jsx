@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import Post from "./Post";
 
 const Posts = ({ onHandleClick, posts }) => {
@@ -8,6 +9,18 @@ const Posts = ({ onHandleClick, posts }) => {
       ))}
     </div>
   );
+};
+
+Posts.propTypes = {
+  onHandleClick: PropTypes.func,
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      author: PropTypes.string,
+      content: PropTypes.string,
+    })
+  ),
 };
 
 export default Posts;

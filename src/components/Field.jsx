@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { forwardRef, useId } from "react";
 
 const Field = forwardRef(({ name, placeholder, label, type = "text" }, ref) => {
@@ -18,5 +19,12 @@ const Field = forwardRef(({ name, placeholder, label, type = "text" }, ref) => {
     </div>
   );
 });
+
+Field.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+  type: PropTypes.string,
+};
 
 export default Field;

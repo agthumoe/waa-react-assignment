@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import Comment from "./Comment";
 
 const Comments = ({ comments }) => {
@@ -15,6 +16,14 @@ const Comments = ({ comments }) => {
       )}
     </div>
   );
+};
+
+Comments.propTypes = {
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+    })
+  ),
 };
 
 export default Comments;

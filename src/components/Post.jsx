@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import Badge from "./Badge";
 
 const Post = ({ id, title, author, onHandleClick }) => {
@@ -14,6 +15,13 @@ const Post = ({ id, title, author, onHandleClick }) => {
       <div className="text-gray-600 text-md mt-1">{title}</div>
     </div>
   );
+};
+
+Post.propTypes = {
+  id: PropTypes.number,
+  title: PropTypes.string,
+  author: PropTypes.string,
+  onHandleClick: PropTypes.func,
 };
 
 export default Post;

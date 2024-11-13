@@ -22,7 +22,7 @@ const PostDetails = ({ id, onDeleteSuccess }) => {
   }
 
   return (
-    <div className="border rounded-lg mt-5 p-5">
+    <div className="max-w-lg mx-auto my-5 border p-10 rounded-lg">
       <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-1">
         {post.title}
       </h2>

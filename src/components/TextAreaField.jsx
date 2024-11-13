@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { forwardRef, useId } from "react";
 
 const TextAreaField = forwardRef(({ name, placeholder, label }, ref) => {
@@ -18,5 +19,11 @@ const TextAreaField = forwardRef(({ name, placeholder, label }, ref) => {
     </div>
   );
 });
+
+TextAreaField.propTypes = {
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+};
 
 export default TextAreaField;

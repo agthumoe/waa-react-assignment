@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useRef } from "react";
 import { createPost } from "../api/api";
 import Button from "./Button";
@@ -15,7 +16,9 @@ const AddPost = ({ invalidate }) => {
     const content = contentRef.current.value;
     const author = authorRef.current.value;
     createPost({ title, content, author }).then(() => {
-      invalidate();
+      if (typeof invalidate === "function") {
+        invalidate();
+      }
       reset();
     });
   };
@@ -57,6 +60,10 @@ const AddPost = ({ invalidate }) => {
       </div>
     </Form>
   );
+};
+
+AddPost.propTypes = {
+  invalidate: PropTypes.func,
 };
 
 export default AddPost;
