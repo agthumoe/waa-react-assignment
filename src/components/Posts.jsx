@@ -1,26 +1,22 @@
-import PropTypes from "prop-types";
+import { useContext, useEffect, useState } from "react";
+import { getAllPosts } from "../api/api";
 import Post from "./Post";
+import StatefulContext from "./StatefulContext";
 
-const Posts = ({ onHandleClick, posts }) => {
+const Posts = () => {
+  const { flag } = useContext(StatefulContext);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    getAllPosts().then((data) => setPosts(data));
+  }, [flag]);
+
   return (
     <div className="grid grid-cols-4 gap-4">
       {posts.map((post, index) => (
-        <Post {...post} key={index} onHandleClick={onHandleClick} />
+        <Post {...post} key={index} />
       ))}
     </div>
   );
-};
-
-Posts.propTypes = {
-  onHandleClick: PropTypes.func,
-  posts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      author: PropTypes.string,
-      content: PropTypes.string,
-    })
-  ),
 };
 
 export default Posts;

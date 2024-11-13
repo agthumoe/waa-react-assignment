@@ -1,7 +1,16 @@
 import PropTypes from "prop-types";
 import Badge from "./Badge";
+import StatefulContext from "./StatefulContext";
+import { useContext } from "react";
 
-const Post = ({ id, title, author, onHandleClick }) => {
+const Post = ({ id, title, author }) => {
+  const { setSelectedPostId, setIsAddPost } = useContext(StatefulContext);
+
+  const onHandleClick = (id) => {
+    setSelectedPostId(id);
+    setIsAddPost(false);
+  };
+
   return (
     <div
       className="border shadow-md rounded-lg p-6 w-full hover:shadow-lg cursor-pointer transition duration-300 bg-white"
@@ -21,7 +30,6 @@ Post.propTypes = {
   id: PropTypes.number,
   title: PropTypes.string,
   author: PropTypes.string,
-  onHandleClick: PropTypes.func,
 };
 
 export default Post;

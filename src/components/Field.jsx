@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { forwardRef, useId } from "react";
+import { useId } from "react";
 
-const Field = forwardRef(({ name, placeholder, label, type = "text" }, ref) => {
+const Field = ({ name, placeholder, label, type = "text" }) => {
   const id = useId();
   return (
     <div className="mb-5">
@@ -14,11 +14,10 @@ const Field = forwardRef(({ name, placeholder, label, type = "text" }, ref) => {
         name={name}
         className="bg-gray-50 border border-indigo-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
         placeholder={placeholder}
-        ref={ref}
       />
     </div>
   );
-});
+};
 
 Field.propTypes = {
   name: PropTypes.string.isRequired,

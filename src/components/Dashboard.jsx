@@ -1,46 +1,51 @@
 import { useState } from "react";
-import useGetAllPosts from "../hooks/useGetAllPosts";
 import AddPost from "./AddPost";
 import Button from "./Button";
 import PostDetails from "./PostDetails";
 import Posts from "./Posts";
+import StatefulContext from "./StatefulContext";
 
 const Dashboard = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [isAddPost, setIsAddPost] = useState(false);
-
-  const { posts, invalidate } = useGetAllPosts();
-
-  const onPostClick = (id) => {
-    setSelectedPostId(id);
-    setIsAddPost(false);
+  const [flag, setFlag] = useState(1);
+  const invalidate = () => {
+    setFlag((prev) => prev + 1);
   };
 
-  const onAddPost = () => {
+  const onDeleteSuccess = () => {
+    invalidate();
+  };
+
+  const onAddPostClick = () => {
     setIsAddPost(true);
     setSelectedPostId(null);
   };
 
-  const onDeleteSuccess = () => {
-    setSelectedPostId(null);
-    invalidate();
-  };
-
   return (
-    <div className="p-10">
-      <div className="flex flex-col items-start mb-5">
-        <h1 className="text-2xl font-bold text-indigo-600 mb-2">Posts</h1>
-        <span className="text-sm text-gray-500 block mb-2">
-          Click Post to view details
-        </span>
-        <Button onClick={onAddPost}>Create New Post</Button>
+    <StatefulContext.Provider
+      value={{
+        selectedPostId,
+        setSelectedPostId,
+        isAddPost,
+        setIsAddPost,
+        flag,
+        invalidate,
+      }}
+    >
+      <div className="p-10">
+        <div className="flex flex-col items-start mb-5">
+          <h1 className="text-2xl font-bold text-indigo-600 mb-2">Posts</h1>
+          <span className="text-sm text-gray-500 block mb-2">
+            Click Post to view details
+          </span>
+          <Button onClick={onAddPostClick}>Create New Post</Button>
+        </div>
+        <Posts />
+        <PostDetails onDeleteSuccess={onDeleteSuccess} />
+        {isAddPost && <AddPost />}
       </div>
-      <Posts onHandleClick={onPostClick} posts={posts} />
-      {selectedPostId && (
-        <PostDetails id={selectedPostId} onDeleteSuccess={onDeleteSuccess} />
-      )}
-      {isAddPost && <AddPost invalidate={invalidate} />}
-    </div>
+    </StatefulContext.Provider>
   );
 };
 

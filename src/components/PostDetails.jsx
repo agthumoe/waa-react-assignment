@@ -1,14 +1,25 @@
+import { useContext } from "react";
 import { deleteOnePost } from "../api/api";
 import useGetAllCommentsOfPost from "../hooks/useGetallCommentsOfPost";
 import useGetOnePost from "../hooks/useGetOnePost";
 import Badge from "./Badge";
 import Button from "./Button";
 import Comments from "./Comments";
+import StatefulContext from "./StatefulContext";
 
-const PostDetails = ({ id, onDeleteSuccess }) => {
-  const post = useGetOnePost(id);
+const PostDetails = () => {
+  const { selectedPostId, setIsAddPost, setSelectedPostId, invalidate } =
+    useContext(StatefulContext);
+
+  const post = useGetOnePost(selectedPostId);
   const { comments, invalidate: invalidateComments } =
-    useGetAllCommentsOfPost(id);
+    useGetAllCommentsOfPost(selectedPostId);
+
+  const onDeleteSuccess = () => {
+    setIsAddPost(false);
+    setSelectedPostId(null);
+    invalidate();
+  };
 
   const handleDelete = async (id) => {
     await deleteOnePost(id);
@@ -17,7 +28,7 @@ const PostDetails = ({ id, onDeleteSuccess }) => {
     invalidateComments();
   };
 
-  if (!post) {
+  if (!post || !selectedPostId) {
     return null;
   }
 
@@ -30,7 +41,7 @@ const PostDetails = ({ id, onDeleteSuccess }) => {
       <Badge>{post.author}</Badge>
       <div className="flex space-x-2 mt-8">
         <Button>Edit</Button>
-        <Button color="danger" onClick={() => handleDelete(id)}>
+        <Button color="danger" onClick={() => handleDelete(selectedPostId)}>
           Delete
         </Button>
       </div>

@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 
-const Form = ({ children, className }) => {
+const Form = forwardRef(function Form({ children, className }, ref) {
   return (
-    <form noValidate className={className}>
+    <form noValidate className={className} ref={ref}>
       {children}
     </form>
   );
-};
+});
 
 Form.propTypes = {
   children: PropTypes.node.isRequired,
