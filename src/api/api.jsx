@@ -2,6 +2,24 @@ import axios from "axios";
 
 const api = axios.create({ baseURL: "http://localhost:8080/api/v1" });
 
+api.interceptors.request.use(
+  function (config) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      const newConfig = { ...config };
+      newConfig.headers = {
+        ...newConfig.headers,
+        Authorization: `Bearer ${accessToken}`,
+      };
+      return newConfig;
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
 export const getAllPosts = async () => {
   const response = await api.get("posts");
   return response.data;

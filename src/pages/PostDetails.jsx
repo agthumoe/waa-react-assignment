@@ -1,26 +1,22 @@
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { deleteOnePost } from "../api/api";
-import StatefulContext from "../contexts/StatefulContext";
+import Badge from "../components/Badge";
+import Button from "../components/Button";
+import Comments from "../components/Comments";
 import useGetPostDetailsWithComments from "../hooks/useGetPostDetailsWithCommments";
-import Badge from "./Badge";
-import Button from "./Button";
-import Comments from "./Comments";
 
 const PostDetails = () => {
-  const { selectedPostId, setIsAddPost, setSelectedPostId, invalidate } =
-    useContext(StatefulContext);
+  const navigate = useNavigate();
 
-  const { post, comments } = useGetPostDetailsWithComments(selectedPostId);
+  const { post, comments, id } = useGetPostDetailsWithComments();
 
   const handleDelete = async (id) => {
     await deleteOnePost(id);
     alert(`Deleted: ${id}`);
-    setIsAddPost(false);
-    setSelectedPostId(null);
-    invalidate();
+    navigate("/auth/posts");
   };
 
-  if (!post || !selectedPostId) {
+  if (!post) {
     return null;
   }
 
@@ -33,7 +29,7 @@ const PostDetails = () => {
       <Badge>{post.author}</Badge>
       <div className="flex space-x-2 mt-8">
         <Button>Edit</Button>
-        <Button color="danger" onClick={() => handleDelete(selectedPostId)}>
+        <Button color="danger" onClick={() => handleDelete(id)}>
           Delete
         </Button>
       </div>

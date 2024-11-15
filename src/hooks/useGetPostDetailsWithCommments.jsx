@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getOnePostWithComments } from "../api/api";
 
-function useGetPostDetailsWithComments(postId) {
+function useGetPostDetailsWithComments() {
+  const { id } = useParams();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    if (postId) {
-      getOnePostWithComments(postId).then(({ post, comments }) => {
+    if (id) {
+      getOnePostWithComments(id).then(({ post, comments }) => {
         setPost(post);
         setComments(comments);
       });
     }
-  }, [postId]);
-  return { post, comments };
+  }, [id]);
+  return { post, comments, id };
 }
 
 export default useGetPostDetailsWithComments;

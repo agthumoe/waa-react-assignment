@@ -29,7 +29,13 @@ const config = {
   },
 };
 
-const Button = ({ children, color = "primary", type = "button", onClick }) => {
+const Button = ({
+  children,
+  color = "primary",
+  type = "button",
+  onClick,
+  className,
+}) => {
   return (
     <button
       onClick={onClick}
@@ -38,7 +44,8 @@ const Button = ({ children, color = "primary", type = "button", onClick }) => {
         `rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`,
         config[color].bgColor,
         config[color].hoverBgColor,
-        config[color].focusOutline
+        config[color].focusOutline,
+        className
       )}
     >
       {children}
@@ -57,5 +64,6 @@ Button.propTypes = {
   ]),
   type: PropTypes.oneOf(["button", "submit", "reset"]),
   onClick: PropTypes.func,
+  className: PropTypes.string,
 };
 export default Button;

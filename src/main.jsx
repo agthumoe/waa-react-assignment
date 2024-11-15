@@ -1,13 +1,16 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import Dashboard from "./components/Dashboard.jsx";
-import { StatefulContextProvider } from "./contexts/StatefulContext.jsx";
+import { RouterProvider } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
 import "./index.css";
+import router from "./routers/index.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <StatefulContextProvider>
-      <Dashboard />
-    </StatefulContextProvider>
-  </StrictMode>
+  <AuthProvider>
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: true,
+      }}
+    />
+  </AuthProvider>
 );

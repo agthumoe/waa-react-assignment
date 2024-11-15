@@ -1,5 +1,5 @@
 import useGetAllPosts from "../hooks/useGetAllPosts";
-import Post from "./Post";
+import Post from "../components/Post";
 
 const Posts = () => {
   const posts = useGetAllPosts();

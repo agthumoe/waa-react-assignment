@@ -1,15 +1,14 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { createPost } from "../api/api";
-import StatefulContext from "../contexts/StatefulContext";
-import Button from "./Button";
-import Field from "./Field";
-import Form from "./Form";
-import TextAreaField from "./TextAreaField";
+import Button from "../components/Button";
+import Field from "../components/Field";
+import Form from "../components/Form";
+import TextAreaField from "../components/TextAreaField";
 
-const AddPost = () => {
+const CreatePost = () => {
   const formRef = useRef();
-
-  const { invalidate, isAddPost } = useContext(StatefulContext);
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     const data = {
@@ -18,10 +17,8 @@ const AddPost = () => {
       author: formRef.current.author.value,
     };
     createPost(data).then(() => {
-      if (typeof invalidate === "function") {
-        invalidate();
-      }
       reset();
+      navigate("/auth/posts");
     });
   };
 
@@ -29,20 +26,16 @@ const AddPost = () => {
     formRef.current.reset();
   };
 
-  if (!isAddPost) {
-    return null;
-  }
-
   return (
     <Form
-      className="max-w-lg mx-auto my-5 border p-10 rounded-lg"
+      className="max-w-lg mx-auto mt-32 p-10 rounded-lg bg-white shadow-md"
       ref={formRef}
     >
       <h2 className="text-2xl font-bold text-indigo-700 mb-5">Add Post</h2>
       <Field name="title" label="Title" placeholder="Awesome title" />
       <TextAreaField name="content" label="Content" placeholder="Write here" />
       <Field name="author" label="Author" placeholder="Who's writing" />
-      <div className="mt1 flex space-x-2 justify-end">
+      <div className="mt-7 flex space-x-2 justify-end">
         <Button type="button" onClick={handleSubmit}>
           Submit
         </Button>
@@ -54,4 +47,4 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default CreatePost;
